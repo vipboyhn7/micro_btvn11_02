@@ -1,0 +1,38 @@
+# Maven build output
+target/
+
+# IDE metadata
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Java/JVM generated files
+*.class
+*.log
+hs_err_pid*
+replay_pid*
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+application-local.properties
+application-local.yml
+
+# Local database/cache data
+*.db
+*.sqlite
+*.sqlite3
+postgres-data/
+redis-data/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo

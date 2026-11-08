@@ -48,6 +48,7 @@ public class MedicineController {
 
     @PutMapping("/{id}")
     public Medicine update(@PathVariable Long id, @Valid @RequestBody Medicine medicine) {
+        medicine.setId(id);
         return service.update(id, medicine);
     }
 

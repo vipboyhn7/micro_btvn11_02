@@ -24,6 +24,22 @@ Endpoint `GET /api/medicines/{id}` được đánh dấu:
 
 Lần gọi đầu tiên đọc dữ liệu từ PostgreSQL và lưu JSON vào Redis. Các lần gọi sau với cùng `id` trả về từ Redis nên không chạy truy vấn database.
 
+Cache `medicines` có TTL 60 phút. Khi cập nhật thuốc, service dùng:
+
+```java
+@CacheEvict(value = "medicines", key = "#medicine.id")
+```
+
+Key cache bị xóa sau khi cập nhật thành công. Vì vậy, lần gọi `GET` kế tiếp sẽ chạy lại truy vấn PostgreSQL, nhận giá mới và nạp lại vào Redis.
+
+Ví dụ cập nhật giá thuốc ID 1:
+
+```bash
+curl -X PUT http://localhost:8080/api/medicines/1 \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"Paracetamol 500mg","manufacturer":"DHG Pharma","description":"Thuốc giảm đau, hạ sốt","price":15000,"stock":100}'
+```
+
 Có thể kiểm tra key trong Redis:
 
 ```bash

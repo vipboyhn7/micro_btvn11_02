@@ -3,7 +3,6 @@ package com.example.medicinecache.medicine;
 import java.util.List;
 
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,11 +33,11 @@ public class MedicineService {
     }
 
     @Transactional
-    @CachePut(value = "medicines", key = "#id")
-    public Medicine update(Long id, Medicine input) {
-        Medicine medicine = findById(id);
-        medicine.updateFrom(input);
-        return repository.save(medicine);
+    @CacheEvict(value = "medicines", key = "#medicine.id")
+    public Medicine update(Long id, Medicine medicine) {
+        Medicine existing = findById(id);
+        existing.updateFrom(medicine);
+        return repository.save(existing);
     }
 
     @Transactional
